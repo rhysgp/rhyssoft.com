@@ -1,3 +1,13 @@
+<script setup lang="ts">
+  useHead({
+    link: [
+      {
+        rel: 'me',
+        href: 'https://mastodonapp.uk/@pyrrho'
+      }
+    ]
+  });
+</script>
 <template>
   <div class="flex h-screen justify-between flex-col">
     <nav class="bg-gray-800">
@@ -29,5 +39,3 @@
 
   </div>
 </template>
-<script setup lang="ts">
-</script>
