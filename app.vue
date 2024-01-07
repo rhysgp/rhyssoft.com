@@ -28,7 +28,7 @@
       </div>
     </nav>
 
-    <div style="height: inherit">
+    <div>
       <NuxtPage />
     </div>
 
