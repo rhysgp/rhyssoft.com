@@ -73,26 +73,33 @@ resource "aws_s3_bucket_website_configuration" "rhyssoft_s3_website" {
   }
 }
 
+resource "aws_s3_bucket_public_access_block" "rhyssoft_s3_public_access" {
+  bucket = aws_s3_bucket.rhyssoft_s3_bucket.id
+
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
 
 # Set the security policy for the bucket:
 resource "aws_s3_bucket_policy" "rhyssoft_s3_policy" {
   bucket = aws_s3_bucket.rhyssoft_s3_bucket.id
-  policy = data.aws_iam_policy_document.rhyssoft_s3_policy_readonly.json
-}
-
-data "aws_iam_policy_document" "rhyssoft_s3_policy_readonly" {
-  statement {
-    principals {
-      identifiers = ["*"]
-      type        = "*"
-    }
-
-    actions = [
-      "s3:GetObject"
-    ]
-
-    resources = [
-      "arn:aws:s3:::${aws_s3_bucket.rhyssoft_s3_bucket.bucket_domain_name}/*"
-    ]
+  policy = <<EOT
+  {
+     "Version": "2012-10-17",
+     "Statement": [
+       {
+         "Effect": "Allow",
+         "Principal": "*",
+         "Action": [
+           "s3:GetObject"
+         ],
+         "Resource": [
+           "arn:aws:s3:::rhyssoft-com/*"
+         ]
+       }
+     ]
   }
+EOT
 }

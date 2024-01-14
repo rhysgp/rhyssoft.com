@@ -78,7 +78,7 @@ This will create a `dist` directory (actually a soft link to .output/public).
 To deploy these, run:
 ```bash
 cd dist
-aws s3 cp -R * s3://rhyssoft-com/ --profile rhyssoft --SSE=AES256
+aws s3 cp --recursive --profile rhyssoft --sse=AES256 . s3://rhyssoft-com/
 ```
 
 (you may have a different profile name — it should match what you have in your
