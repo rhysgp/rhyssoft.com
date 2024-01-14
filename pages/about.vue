@@ -7,6 +7,9 @@
       My name is Rhys Parsons. I started developing software professionally in 1997. I am maintaining this site to
       share and showcase my technology-related ideas and experiences.
     </Paragraph>
+    <Paragraph>
+      You can find me on LinkedIn and Mastodon. See the links below.
+    </Paragraph>
     <div>
       <a class="linkedin" href="https://www.linkedin.com/in/rhys-parsons-7441822?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BnhAeM%2FxXSeuFB6bqPhGOuA%3D%3D" target="_blank">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor" class="mercado-match" width="24" height="24" focusable="false">
