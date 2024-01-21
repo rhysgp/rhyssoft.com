@@ -28,13 +28,11 @@
       </div>
     </nav>
 
-    <div>
-      <NuxtPage />
-    </div>
+    <NuxtPage />
 
     <!-- Footer -->
     <footer class="flex items-center min-h-16 p-4 border-t border-gray-200">
-      <span class="inline-block">Copyright &copy; Rhys Parsons. All rights reserved.</span>
+      <span class="inline-block">Copyright &copy; 2023 Rhys Parsons. All rights reserved.</span>
     </footer>
 
   </div>
