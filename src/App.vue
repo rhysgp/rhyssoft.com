@@ -13,7 +13,7 @@ import NavLink from './components/NavLink.vue'
             </div>
             <div class="hidden sm:ml-6 sm:block">
               <div class="flex space-x-4">
-                <NavLink page="home" label="Home" />
+                <NavLink page="" label="Home" />
                 <NavLink page="about" label="About" />
               </div>
             </div>
