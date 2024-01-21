@@ -1,12 +1,5 @@
 <script setup lang="ts">
-  useHead({
-    link: [
-      {
-        rel: 'me',
-        href: 'https://mastodonapp.uk/@pyrrho'
-      }
-    ]
-  });
+import { RouterLink, RouterView } from 'vue-router'
 </script>
 <template>
   <div class="flex h-screen justify-between flex-col">
@@ -19,8 +12,9 @@
             </div>
             <div class="hidden sm:ml-6 sm:block">
               <div class="flex space-x-4">
-                <NavLink label="Home"  page="" :current="$route.name == 'index'" />
-                <NavLink label="About" page="about" :current="$route.name == 'about'" />
+                <!-- @todo Fix 'current' -->
+                <RouterLink to="/">Home</RouterLink>
+                <RouterLink to="/about">About</RouterLink>
               </div>
             </div>
           </div>
@@ -28,7 +22,7 @@
       </div>
     </nav>
 
-    <NuxtPage />
+    <router-view />
 
     <!-- Footer -->
     <footer class="flex items-center min-h-16 p-4 border-t border-gray-200">

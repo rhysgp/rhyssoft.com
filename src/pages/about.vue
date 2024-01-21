@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import Paragraph from '../components/Paragraph.vue'
+import Content from '../components/Content.vue'
+import Heading from '../components/Heading.vue'
 </script>
 <template>
   <Content>
-    <Heading size="1">About rhyssoft.com</Heading>
+    <Heading :size="1">About rhyssoft.com</Heading>
     <Paragraph>
       My name is Rhys Parsons. I started developing software professionally in 1997. I am maintaining this site to
       share and showcase my technology-related ideas and experiences.
