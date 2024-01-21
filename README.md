@@ -1,6 +1,6 @@
 # rhyssoft.com
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+This site uses Vue 3. Look at the [Vue 3](https://vuejs.org) to learn more.
 
 ## Setup
 
@@ -66,14 +66,13 @@ created manually, and is not part of the terraform set up.
 
 
 ### Building and deploying the site
-Nuxt support Static Site Generation (SSG), which is one of the reasons I'm using
-Nuxt. To build the site, in the project directory, run:
+To build run:
 
 ```bash
-npx nuxi generate
+npm run build
 ```
 
-This will create a `dist` directory (actually a soft link to .output/public).
+This will create a `dist` directory with the code to deploy.
 
 To deploy these, run:
 ```bash
