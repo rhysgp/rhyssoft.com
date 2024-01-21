@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
+import NavLink from './components/NavLink.vue'
 </script>
 <template>
   <div class="flex h-screen justify-between flex-col">
@@ -12,9 +13,8 @@ import { RouterLink, RouterView } from 'vue-router'
             </div>
             <div class="hidden sm:ml-6 sm:block">
               <div class="flex space-x-4">
-                <!-- @todo Fix 'current' -->
-                <RouterLink to="/">Home</RouterLink>
-                <RouterLink to="/about">About</RouterLink>
+                <NavLink page="home" label="Home" />
+                <NavLink page="about" label="About" />
               </div>
             </div>
           </div>
