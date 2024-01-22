@@ -6,7 +6,8 @@
     "cypress.config.*",
     "nightwatch.conf.*",
     "playwright.config.*",
-    "rollup-plugin/rollup-plugin-blog-processor.ts"
+    "rollup-plugin/rollup-plugin-blog-processor.ts",
+    "rollup-plugin/roller-plugin-sitemap-generator.ts"
   ],
   "compilerOptions": {
     "composite": true,

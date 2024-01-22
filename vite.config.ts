@@ -4,6 +4,7 @@ import { glob } from 'glob';
 import path from 'node:path';
 
 import blog from './rollup-plugin/rollup-plugin-blog-processor.ts'
+import sitemap from './rollup-plugin/roller-plugin-sitemap-generator.ts'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
@@ -28,7 +29,13 @@ console.log(JSON.stringify(blogs, null, 2))
 export default defineConfig({
   plugins: [
     vue(),
-    blog()
+    blog(),
+    sitemap({
+      staticFiles: [
+        '/about.html'
+      ],
+      blogDirectory: resolve(__dirname, 'blogs')
+    })
   ],
   resolve: {
     alias: {
