@@ -1,6 +1,7 @@
-title:Introduction — first foray
 published-date:2024-01-17
 ---
+#Introduction — first foray
+
 Maybe the first thing I should explain is why now? I've been writing software
 professionally for over 25 years. I've not previously contemplated writing my
 own blog. In fact, I would previously have considered writing a blog

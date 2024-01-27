@@ -18,7 +18,7 @@ const baseFilename = (file: string) => {
 
 const blogs =
   Object.fromEntries(
-    glob.sync(`${resolve(__dirname, 'blogs')}/**/*.txt`).map(
+    glob.sync(`${resolve(__dirname, 'blogs')}/**/*.md`).map(
       file => [ baseFilename(file), file ]
     )
   )
@@ -30,12 +30,12 @@ export default defineConfig({
   plugins: [
     vue(),
     blog(),
-    sitemap({
-      staticFiles: [
-        '/about.html'
-      ],
-      blogDirectory: resolve(__dirname, 'blogs')
-    })
+//    sitemap({
+//      staticFiles: [
+//        '/about.html'
+//      ],
+//      blogDirectory: resolve(__dirname, 'blogs')
+//    })
   ],
   resolve: {
     alias: {

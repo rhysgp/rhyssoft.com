@@ -7,8 +7,9 @@
 
 import { Plugin } from 'rollup';
 import { createFilter } from 'rollup-pluginutils';
+import { parseMarkdown } from "./markdown-parser";
 
-const ext = /\.txt$/;
+const ext = /\.md$/;
 
 export default function processBlogs(options = {}): Plugin {
 
@@ -17,14 +18,24 @@ export default function processBlogs(options = {}): Plugin {
   return {
     name: 'rs-blog-processor',
 
-    transform(md, id) {
-      if (!ext.test(id)) return null; // ignore files that don't have a .md ending
-      console.log(`HERE! ${id} `);
+    /*
+     * See https://rollupjs.org/plugin-development/#transform
+     */
 
-      if (!filter(id)) return null; // hm; also filter files that don't end in .md and other stuff, depending on config
+    transform(md, id) {
+      if (!ext.test(id)) {
+        console.log(`Not processing: ${id}`);
+        return null; // ignore files that don't have a .md ending
+      }
 
       console.log(`Transform called with id=${id}`);
-      return JSON.stringify("hello blog file!");
+
+      const code = parseMarkdown(id, md);
+
+      return {
+        code: code,
+        map: { mappings: '' }
+    };
     }
   }
 };

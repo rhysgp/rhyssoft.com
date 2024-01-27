@@ -1,6 +1,5 @@
 import {Plugin} from "rollup";
 import {glob} from "glob";
-import {resolve} from "path";
 import path from "node:path";
 
 interface GenerateSitemapOptions {
