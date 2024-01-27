@@ -56,19 +56,11 @@ class Paragraph {
     }
 }
 
-
 export function parseMarkdown(file: string, md: string): Paragraph[] {
     console.log("--------------------------------------------");
     console.log(file);
     console.log(md);
     console.log("--------------------------------------------");
-
-    const continuationParagraphTypes = [
-        ParagraphStyle.Normal,
-        ParagraphStyle.NumberedList,
-        ParagraphStyle.UnnumberedList,
-        ParagraphStyle.BlockQuote,
-    ];
 
     /*
      * BulletItem,
@@ -108,6 +100,15 @@ export function parseMarkdown(file: string, md: string): Paragraph[] {
             && listParagraphTypes.includes(currentParagraph.style);
     }
 
+    const processEmpty = () => {
+        if (currentParagraph) {
+            currentParagraph = undefined;
+        } else {
+            // push an empty paragraph, if that's what the markdown says!
+            paragraphs.push(new Paragraph(ParagraphStyle.Normal));
+        }
+    }
+
     const processNormal = (line: string) => {
         const isContinuation = currentParagraph
             && (
@@ -125,7 +126,7 @@ export function parseMarkdown(file: string, md: string): Paragraph[] {
         }
     }
 
-    const processingHeading = (line: string) => {
+    const processHeading = (line: string) => {
         const match = line.match(/^\s*(#*)(.+)$/);
         if (!!match) {
             const group = match[1];
@@ -194,18 +195,13 @@ export function parseMarkdown(file: string, md: string): Paragraph[] {
     for (const line of lines) {
         switch (determineLineType(line)) {
             case LineType.Empty:
-                if (currentParagraph) {
-                    currentParagraph = undefined;
-                } else {
-                    // push an empty paragraph, if that's what the markdown says!
-                    paragraphs.push(new Paragraph(ParagraphStyle.Normal));
-                }
+                processEmpty();
                 break;
             case LineType.Normal:
                 processNormal(line);
                 break;
             case LineType.Heading:
-                processingHeading(line);
+                processHeading(line);
                 break;
             case LineType.BulletItem:
                 processLineItem(line, ParagraphStyle.UnnumberedList);
