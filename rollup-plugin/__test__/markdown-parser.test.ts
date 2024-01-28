@@ -9,6 +9,9 @@ import headingsAndTextMd from './headings-and-text.md?raw'
 import listItemsMd from './list-items.md?raw'
 import numberedItemsMd from './numbered-items.md?raw'
 import horizontalRuleMd from './horizontal-rule.md?raw'
+import blockQuoteMd from './block-quote.md?raw'
+import firstBlogPost from '../../blogs/001_intro.md?raw'
+import secondBlogPost from '../../blogs/002_rollup-plugin.md?raw'
 
 import {parseMarkdown, ParagraphStyle, InlineStyle} from "../markdown-parser";
 
@@ -102,6 +105,14 @@ describe('parsing markdown', () => {
         expect(paragraphs[2].texts[0].text).toBe('Here is my second paragraph.');
     });
 
+    it('should process block quote correctly', () => {
+        const paragraphs = parseMarkdown('', blockQuoteMd);
+        expect(paragraphs.length).toBe(1);
+        expect(paragraphs[0].texts.length).toBe(2);
+        expect(paragraphs[0].texts[0].text).toBe('rm -f -r *');
+        expect(paragraphs[0].texts[1].text).toBe('ls -l');
+    });
+
     it('should process italics correctly', () => {
         const paragraphs = parseMarkdown('', 'Here there _be_ dragons');
         expect(paragraphs[0].texts.length).toBe(3);
@@ -122,5 +133,15 @@ describe('parsing markdown', () => {
         expect(paragraphs[0].texts[1].style).toBe(InlineStyle.Bold);
         expect(paragraphs[0].texts[2].text).toBe(' dragons');
         expect(paragraphs[0].texts[2].style).toBe(InlineStyle.Normal);
+    });
+
+    it('should parse the first blog post', () => {
+        const paragraphs = parseMarkdown('', firstBlogPost)
+        console.log(paragraphs);
+    });
+
+    it('should parse the second blog post', () => {
+        const paragraphs = parseMarkdown('', secondBlogPost)
+        console.log(paragraphs);
     });
 });

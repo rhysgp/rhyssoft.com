@@ -46,10 +46,12 @@ class StyledText {
 class Paragraph {
     style: ParagraphStyle;
     texts: StyledText[];
+    type: string | undefined;
 
-    constructor(style: ParagraphStyle) {
+    constructor(style: ParagraphStyle, type: string | undefined = undefined) {
         this.style = style;
         this.texts = [];
+        this.type = type;
     }
 
     addText(text: StyledText): void {
@@ -118,7 +120,15 @@ export function parseMarkdown(file: string, md: string): Paragraph[] {
                   || currentParagraph.style === ParagraphStyle.BlockQuote
             )
         if (currentParagraph && isContinuation) {
-            currentParagraph.texts[currentParagraph.texts.length - 1].addText(' ' + line.trim());
+            if (currentParagraph.style === ParagraphStyle.BlockQuote) {
+                currentParagraph.texts.push(new StyledText(InlineStyle.Normal, line.trim()));
+            } else {
+                if (currentParagraph.texts.length > 0) {
+                    currentParagraph.texts[currentParagraph.texts.length - 1].addText(' ' + line.trim());
+                } else {
+                    currentParagraph.texts.push(new StyledText(InlineStyle.Normal, line.trim()));
+                }
+            }
         } else {
             const p = new Paragraph(ParagraphStyle.Normal);
             p.addText(new StyledText(InlineStyle.Normal, line.trim()));
@@ -175,9 +185,10 @@ export function parseMarkdown(file: string, md: string): Paragraph[] {
 
     }
 
-    const processBlockQuote = () => {
+    const processBlockQuote = (line: string) => {
         if (!currentParagraph || currentParagraph.style !== ParagraphStyle.BlockQuote) {
-            currentParagraph = new Paragraph(ParagraphStyle.BlockQuote);
+            const blockQuoteType = line.substring(3)
+            currentParagraph = new Paragraph(ParagraphStyle.BlockQuote, blockQuoteType);
             paragraphs.push(currentParagraph);
         } else {
             currentParagraph = undefined; // end of block quote para
@@ -290,7 +301,7 @@ export function parseMarkdown(file: string, md: string): Paragraph[] {
                 processLineItem(line, ParagraphStyle.NumberedList);
                 break;
             case LineType.BlockQuote:
-                processBlockQuote();
+                processBlockQuote(line);
                 break;
             case LineType.HorizontalRule:
                 processHorizontalRule();
