@@ -23,10 +23,11 @@ export enum ParagraphStyle {
     HorizontalRule
 }
 
-enum InlineStyle {
-    Raw,
+export enum InlineStyle {
     Normal,
     ListItem,
+    Italic,
+    Bold,
 }
 
 class StyledText {
@@ -120,7 +121,7 @@ export function parseMarkdown(file: string, md: string): Paragraph[] {
             currentParagraph.texts[currentParagraph.texts.length - 1].addText(' ' + line.trim());
         } else {
             const p = new Paragraph(ParagraphStyle.Normal);
-            p.addText(new StyledText(InlineStyle.Raw, line.trim()));
+            p.addText(new StyledText(InlineStyle.Normal, line.trim()));
             currentParagraph = p;
             paragraphs.push(p);
         }
@@ -155,7 +156,7 @@ export function parseMarkdown(file: string, md: string): Paragraph[] {
             }
             const text = match[2];
             currentParagraph =  new Paragraph(style);
-            currentParagraph.addText(new StyledText(InlineStyle.Raw, text));
+            currentParagraph.addText(new StyledText(InlineStyle.Normal, text));
             paragraphs.push(currentParagraph);
         }
     }
@@ -186,6 +187,85 @@ export function parseMarkdown(file: string, md: string): Paragraph[] {
     const processHorizontalRule = () => {
         paragraphs.push(new Paragraph(ParagraphStyle.HorizontalRule));
         currentParagraph = undefined;
+    }
+
+    // @todo Finish parsing bold/italic using character parser
+    /*
+    const parseBoldAndItalic = (s: string) => {
+        const ss: StyledText[] = [];
+        let lastChar: string | undefined = undefined;
+
+        for (const c of s) {
+            if (c === '_' || c === '*') {
+                if (lastChar === undefined || [' ', '\t'].includes(lastChar)) {
+
+                }
+            }
+            lastChar = c;
+        }
+        return ss;
+    }
+    */
+
+    const mergeConsecutiveStyles = (ss: StyledText[]) => {
+        if (ss.length < 2) return ss;
+        const merged: StyledText[] = [ ss[0] ];
+        for (let i = 1; i < ss.length; i++) {
+            const prev = merged[merged.length - 1];
+            const st = ss[i];
+            if (st.style === prev.style) {
+                prev.text += st.text;
+            } else {
+                merged.push(st);
+            }
+        }
+        return merged;
+    }
+
+    /*
+     * NB This doesn't support bold+italic. This could be supported by checking,
+     * when splitting italics, that there is not a bold region that is larger
+     * than the italics; and vice versa; and then splitting
+     */
+    const parseInlineStyles = (st: StyledText): StyledText[] => {
+        const italicPattern = /(^|\s)_(.*?)_(\s|,|.|;|:|$)/g;
+        const boldPattern = /(^|\s)\*\*(.*?)\*\*(\s|,|.|;|:|$)/g;
+
+        const parse = (st: StyledText, re: RegExp, style: InlineStyle): StyledText[] => {
+            const ss: StyledText[] = [];
+            const matches = st.text.matchAll(re);
+            let endLastMatchIndex = 0;
+
+            for (const match of matches) {
+                const preSpace = match[1];
+                const italicText = match[2];
+                const postSpace = match[3];
+                if (ss.length === 0 && match.index && match.index > endLastMatchIndex) {
+                    ss.push(new StyledText(st.style, st.text.substring(0, match.index) + preSpace));
+                }
+                ss.push(new StyledText(style, italicText));
+                ss.push(new StyledText(st.style, postSpace));
+                endLastMatchIndex = (match.index ?? 0) + match[0].length;
+            }
+
+            if (endLastMatchIndex < st.text.length) {
+                ss.push(new StyledText(st.style, st.text.substring(endLastMatchIndex)));
+            }
+
+            return ss.length > 0 ? mergeConsecutiveStyles(ss) : [ st ];
+        }
+
+        const texts = parse(st, italicPattern, InlineStyle.Italic);
+        return texts.flatMap((st) => parse(st, boldPattern, InlineStyle.Bold));
+    }
+
+    const parseInlineStylesForParagraph = (paragraph: Paragraph) => {
+        const newStyledTexts: StyledText[] = [];
+        for (const st of paragraph.texts) {
+            const ss = parseInlineStyles(st);
+            newStyledTexts.push(...ss);
+        }
+        paragraph.texts = newStyledTexts;
     }
 
     const paragraphs: Paragraph[] = [];
@@ -220,7 +300,7 @@ export function parseMarkdown(file: string, md: string): Paragraph[] {
         }
     }
 
-    // @todo Now, parse each block's inline styles. That'll be fun.
+    paragraphs.forEach(p => parseInlineStylesForParagraph(p))
 
     return paragraphs;
 }

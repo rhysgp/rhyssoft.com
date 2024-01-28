@@ -10,7 +10,7 @@ import listItemsMd from './list-items.md?raw'
 import numberedItemsMd from './numbered-items.md?raw'
 import horizontalRuleMd from './horizontal-rule.md?raw'
 
-import { parseMarkdown, ParagraphStyle } from "../markdown-parser";
+import {parseMarkdown, ParagraphStyle, InlineStyle} from "../markdown-parser";
 
 describe('parsing markdown', () => {
     it('should process a normal paragraph correctly', () => {
@@ -100,5 +100,27 @@ describe('parsing markdown', () => {
         expect(paragraphs[2].style).toBe(ParagraphStyle.Normal);
         expect(paragraphs[0].texts[0].text).toBe('Here is my first paragraph.');
         expect(paragraphs[2].texts[0].text).toBe('Here is my second paragraph.');
+    });
+
+    it('should process italics correctly', () => {
+        const paragraphs = parseMarkdown('', 'Here there _be_ dragons');
+        expect(paragraphs[0].texts.length).toBe(3);
+        expect(paragraphs[0].texts[0].text).toBe('Here there ');
+        expect(paragraphs[0].texts[0].style).toBe(InlineStyle.Normal);
+        expect(paragraphs[0].texts[1].text).toBe('be');
+        expect(paragraphs[0].texts[1].style).toBe(InlineStyle.Italic);
+        expect(paragraphs[0].texts[2].text).toBe(' dragons');
+        expect(paragraphs[0].texts[2].style).toBe(InlineStyle.Normal);
+    });
+
+    it('should process bold correctly', () => {
+        const paragraphs = parseMarkdown('', 'Here there **are** dragons');
+        expect(paragraphs[0].texts.length).toBe(3);
+        expect(paragraphs[0].texts[0].text).toBe('Here there ');
+        expect(paragraphs[0].texts[0].style).toBe(InlineStyle.Normal);
+        expect(paragraphs[0].texts[1].text).toBe('are');
+        expect(paragraphs[0].texts[1].style).toBe(InlineStyle.Bold);
+        expect(paragraphs[0].texts[2].text).toBe(' dragons');
+        expect(paragraphs[0].texts[2].style).toBe(InlineStyle.Normal);
     });
 });
