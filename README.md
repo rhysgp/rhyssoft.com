@@ -82,3 +82,7 @@ aws s3 cp --recursive --profile rhyssoft --sse=AES256 . s3://rhyssoft-com/
 
 (you may have a different profile name — it should match what you have in your
 .aws/credentials file).
+
+### Code highlighting
+See [Prism](https://prismjs.com/#supported-languages)
+
