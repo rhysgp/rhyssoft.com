@@ -1,6 +1,5 @@
-title: A Rollup Plugin
-published-date:2023-01-20
----
+# A Rollup Plugin
+2024-01-20
 
 ## Some notes:
 

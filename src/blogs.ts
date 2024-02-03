@@ -1,11 +1,11 @@
 
 export interface BlogSpan {
-    style: number;
+    style: any;
     text: string;
 }
 
 export interface BlogParagraph {
-    style: number;
+    style: any;
     texts: BlogSpan[]
 }
 

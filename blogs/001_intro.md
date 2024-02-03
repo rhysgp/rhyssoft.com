@@ -1,6 +1,5 @@
-published-date:2024-01-17
----
-#Introduction — first foray
+# Introduction — first foray
+2024-01-17
 
 Maybe the first thing I should explain is why now? I've been writing software
 professionally for over 25 years. I've not previously contemplated writing my
