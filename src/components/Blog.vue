@@ -24,5 +24,4 @@ const blog: BlogParagraph[] = blogs()[Number(route.params.id)]
 </template>
 
 <style scoped>
-.content-panel { min-height: calc(100% - 64px - 64px) }
 </style>
