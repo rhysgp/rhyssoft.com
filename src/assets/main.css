@@ -1,3 +1,7 @@
 @import './base.css';
 @import "@fontsource/poppins/index.css";
 @import "@fontsource/cutive-mono/index.css";
+
+body {
+    background-color: #e2ede1;
+}

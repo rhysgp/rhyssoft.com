@@ -22,8 +22,11 @@ const props = defineProps<{
 
 <style scoped>
  .card {
+   color: #2c4429;
+   background-color: #cbdec9;
+
    width: 500px;
-   border: 1px solid #ddd;
+   border: 1px solid #6da268;
    border-radius: 5px;
    margin-bottom: 10px;
    padding: 10px 20px;
@@ -31,6 +34,9 @@ const props = defineProps<{
 
  .card hr {
    margin-bottom: 10px;
+   background-color: #6da268;
+   color: #6da268;
+   height: 2px;
  }
 
  .title {
