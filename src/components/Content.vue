@@ -9,5 +9,8 @@
 </template>
 
 <style scoped>
-  .content-panel { min-height: calc(100% - 64px - 64px) }
+  .content-panel {
+    min-height: calc(100vh - 64px - 64px);
+  }
+
 </style>
