@@ -1,15 +1,19 @@
 <script setup lang="ts">
-
 import type {BlogParagraph, BlogSpan} from "@/blogs";
+import { formatDate } from '@/utils/date-format'
 
 const props = defineProps<{
   para: BlogParagraph;
+  publishedDate: boolean;
 }>();
 
 </script>
 <template>
   <p :class="'blog_para_' + para.style">
-    <template v-for="t in para.texts">
+    <template v-if="publishedDate">
+      <div class="w-full text-right text-gray-500 font-cutive-mono">{{formatDate(para.texts[0].text)}}</div>
+    </template>
+    <template v-else v-for="t in para.texts">
       <span :class="'blog_span_' + t.style">{{t.text}}</span>
     </template>
   </p>
@@ -29,6 +33,11 @@ p {
 }
 .blog_para_1 + hr {
   margin-bottom: 10px;
+}
+
+.date {
+  width: 100%;
+
 }
 
 </style>

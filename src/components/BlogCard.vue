@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import moment from 'moment';
+import { formatDate } from '@/utils/date-format'
 
 import type {BlogParagraph} from "@/blogs";
 
@@ -7,10 +7,6 @@ const props = defineProps<{
   blog: BlogParagraph[]
   index: number;
 }>();
-
-const formatDate = (s: string) => {
-  return moment(s).format('LL');
-}
 
 </script>
 <template>

@@ -17,8 +17,8 @@ const blog: BlogParagraph[] = blogs()[Number(route.params.id)]
 
 <template>
   <Content>
-    <template v-for="para in blog">
-      <BlogPara :para="para"/>
+    <template v-for="(para, i) in blog">
+      <BlogPara :para="para" :published-date="i === 1"/>
     </template>
   </Content>
 </template>
