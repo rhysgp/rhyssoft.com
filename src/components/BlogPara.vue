@@ -35,9 +35,6 @@ p {
   margin-bottom: 10px;
 }
 
-.date {
-  width: 100%;
-
 }
 
 </style>
