@@ -4,7 +4,7 @@ import NavLink from './components/NavLink.vue'
 </script>
 <template>
   <div class="flex justify-between flex-col">
-    <nav class="bg-gray-800">
+    <nav class="bg-[#030303] text-[#fbfaf4]">
       <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div class="relative flex h-16 items-center justify-between">
           <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
@@ -25,7 +25,7 @@ import NavLink from './components/NavLink.vue'
     <router-view />
 
     <!-- Footer -->
-    <footer class="flex items-center min-h-16 p-4 border-t border-gray-200">
+    <footer class="flex items-center min-h-16 p-4 border-t border-gray-200 bg-[#030303] text-[#fbfaf4]">
       <span class="inline-block">Copyright &copy; 2023 Rhys Parsons. All rights reserved.</span>
     </footer>
 

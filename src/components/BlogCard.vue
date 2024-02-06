@@ -3,6 +3,14 @@ import { formatDate } from '@/utils/date-format'
 
 import type {BlogParagraph} from "@/blogs";
 
+/*
+ * Coconut:
+ *  #f1eee7
+ *  #030303
+ *  #fbfaf4
+ */
+
+
 const props = defineProps<{
   blog: BlogParagraph[]
   index: number;
@@ -22,11 +30,11 @@ const props = defineProps<{
 
 <style scoped>
  .card {
-   color: #2c4429;
-   background-color: #cbdec9;
+   color: #030303;
+   background-color: #f1eee7;
 
    width: 500px;
-   border: 1px solid #6da268;
+   border: 3px solid #030303;
    border-radius: 5px;
    margin-bottom: 10px;
    padding: 10px 20px;
@@ -34,8 +42,8 @@ const props = defineProps<{
 
  .card hr {
    margin-bottom: 10px;
-   background-color: #6da268;
-   color: #6da268;
+   background-color: #030303;
+   color: #030303;
    height: 2px;
  }
 

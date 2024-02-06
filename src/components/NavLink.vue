@@ -17,9 +17,9 @@ const path = computed(() => { return "/" + props.page });
 
 <template>
   <template v-if="route.path == path">
-    <RouterLink class="text-white px-3 py-2 text-sm font-medium border-b border-color-[#cbdec9]" :to="path" aria-current="page">{{label}}</RouterLink>
+    <RouterLink class="px-3 py-2 text-sm font-medium border-b border-color-[#fbfaf4]" :to="path" aria-current="page">{{label}}</RouterLink>
   </template>
   <template v-else>
-    <RouterLink class="text-white px-3 py-2 text-sm font-medium border-b border-transparent hover:border-[#cbdec9]" :to="path">{{label}}</RouterLink>
+    <RouterLink class="px-3 py-2 text-sm font-medium border-b border-transparent hover:border-[#fbfaf4]" :to="path">{{label}}</RouterLink>
   </template>
 </template>

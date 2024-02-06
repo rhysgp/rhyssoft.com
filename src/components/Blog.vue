@@ -17,11 +17,19 @@ const blog: BlogParagraph[] = blogs()[Number(route.params.id)]
 
 <template>
   <Content>
-    <template v-for="(para, i) in blog">
-      <BlogPara :para="para" :published-date="i === 1"/>
-    </template>
+    <div class="blog border-l-4 border-[#030303]" style="margin-left: -20px; padding-left: 18px">
+      <template v-for="(para, i) in blog">
+        <BlogPara :para="para" :published-date="i === 1"/>
+      </template>
+    </div>
   </Content>
 </template>
 
 <style scoped>
+  .blog {
+    border: 3px solid #030303;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-bottom: 5px;
+  }
 </style>
