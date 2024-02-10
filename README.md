@@ -38,14 +38,20 @@ You need terraform installed - I'm currently using version 1.6.6. To deploy or
 amend the infrastructure, first set up an environment variable that has the AWS 
 profile you're using to access your AWS account:
 
+I am using Google Cloud to host the website. To set up my environment, I ran 
+the following commands:
+
 ```bash
-export AWS_PROFILE=rhyssoft
+gcloud auth login
+gcloud config set project rhyssoft-com-website
+gcloud auth application-default login
 ```
 
-You will need the profile (in this case, `rhyssoft`) to be set up in your 
-`~/.aws/credentials` file. Next, change to the terraform directory, initialise
-it and show the plan of what terraform will change:
+I created the bucket for holding terraform state through the Google Cloud 
+console.
 
+Then I initialised terraform and looked at the plan, to see what terraform
+was intending to do (in this case, create everything):
 ```bash
 cd terraform
 terraform init
@@ -61,8 +67,9 @@ terraform apply
 and type 'yes' to apply the changes.
 
 ### Terraform state
-The terraform state is held in an S3 bucket called `rhyssoft-tfstate`. This was 
-created manually, and is not part of the terraform set up.
+The terraform state is held in a Google Cloud Storage bucket called 
+`rhyssoft-tfstate`. This was created manually, and is not part of the terraform 
+set up.
 
 
 ### Building and deploying the site
@@ -74,14 +81,12 @@ npm run build
 
 This will create a `dist` directory with the code to deploy.
 
-To deploy these, run:
+Copy files to Google Cloud storage bucket:
 ```bash
 cd dist
-aws s3 cp --recursive --profile rhyssoft --sse=AES256 . s3://rhyssoft-com/
+gsutil rm -r gs://www.rhyssoft.com/*
+gsutil cp -r . gs://www.rhyssoft.com
 ```
-
-(you may have a different profile name — it should match what you have in your
-.aws/credentials file).
 
 ### Code highlighting
 See [Prism](https://prismjs.com/#supported-languages)
