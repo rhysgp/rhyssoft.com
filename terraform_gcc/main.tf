@@ -60,9 +60,20 @@ resource "google_compute_global_address" "rs-address" {
 }
 
 # forwarding rule
-resource "google_compute_global_forwarding_rule" "rs-forwarding-rule" {
+resource "google_compute_global_forwarding_rule" "rs-https-forwarding-rule" {
   project               = "rhyssoft-com-website"
-  name                  = "rs-forwarding-rule"
+  name                  = "rs-https-forwarding-rule"
+  provider              = google-beta
+  ip_protocol           = "TCP"
+  load_balancing_scheme = "EXTERNAL"
+  port_range            = "443"
+  target                = google_compute_target_https_proxy.rs-target-https-proxy.id
+  ip_address            = google_compute_global_address.rs-address.id
+}
+
+resource "google_compute_global_forwarding_rule" "rs-http-forwarding-rule" {
+  project               = "rhyssoft-com-website"
+  name                  = "rs-http-forwarding-rule"
   provider              = google-beta
   ip_protocol           = "TCP"
   load_balancing_scheme = "EXTERNAL"
