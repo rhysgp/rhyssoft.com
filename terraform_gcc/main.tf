@@ -136,6 +136,6 @@ resource "google_compute_managed_ssl_certificate" "rs-ssl-cert" {
   name    = "rs-ssl-cert"
 
   managed {
-    domains = ["rhyssoft.com"]
+    domains = ["rhyssoft.com", "www.rhyssoft.com"]
   }
 }
