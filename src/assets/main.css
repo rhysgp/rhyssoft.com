@@ -2,6 +2,12 @@
 @import "@fontsource/poppins/index.css";
 @import "@fontsource/cutive-mono/index.css";
 
-body {
-    background-color: #f1eee7;
+.blog {
+    border: 3px solid var(--color-border);
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-bottom: 5px;
 }
+
+.blog a { color: var(--color-link) }
+.blog a:hover { text-decoration: underline }

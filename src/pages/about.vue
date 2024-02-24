@@ -43,17 +43,8 @@ import Heading from '../components/Heading.vue'
   </Content>
 </template>
 <style scoped>
-  a { color: #355132 }
   a.linkedin svg { color: #0a66c2 }
-  a:hover { text-decoration: underline }
   a svg { float: left }
-
-  .blog {
-    border: 3px solid #030303;
-    border-radius: 5px;
-    padding: 10px 20px;
-    margin-bottom: 5px;
-  }
 
   hr {
     background-color: #030303;
@@ -64,8 +55,7 @@ import Heading from '../components/Heading.vue'
 
   p {
     font-size: 14pt;
-    font-family: Poppins,
-    sans-serif;
+    font-family: Poppins, sans-serif;
     margin-bottom: 20px
   }
 

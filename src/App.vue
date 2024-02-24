@@ -25,7 +25,7 @@ import NavLink from './components/NavLink.vue'
     <router-view />
 
     <!-- Footer -->
-    <footer class="flex items-center min-h-16 p-4 border-t border-gray-200 bg-[#030303] text-[#fbfaf4]">
+    <footer class="flex items-center min-h-16 p-4 bg-[#030303] text-[#fbfaf4]">
       <span class="inline-block">Copyright &copy; 2023 Rhys Parsons. All rights reserved.</span>
     </footer>
 

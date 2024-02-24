@@ -30,11 +30,10 @@ const props = defineProps<{
 
 <style scoped>
  .card {
-   color: #030303;
-   background-color: #f1eee7;
+   background-color: var(--color-background-mute);
 
    width: 500px;
-   border: 3px solid #030303;
+   border: 3px solid var(--color-border);
    border-radius: 5px;
    margin-bottom: 10px;
    padding: 10px 20px;

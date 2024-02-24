@@ -26,10 +26,4 @@ const blog: BlogParagraph[] = blogs()[Number(route.params.id)]
 </template>
 
 <style scoped>
-  .blog {
-    border: 3px solid #030303;
-    border-radius: 5px;
-    padding: 10px 20px;
-    margin-bottom: 5px;
-  }
 </style>
