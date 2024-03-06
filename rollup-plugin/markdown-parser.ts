@@ -189,9 +189,16 @@ export function parseMarkdown(file: string, md: string): Paragraph[] {
         if (!currentParagraph || currentParagraph.style !== ParagraphStyle.BlockQuote) {
             const blockQuoteType = line.substring(3)
             currentParagraph = new Paragraph(ParagraphStyle.BlockQuote, blockQuoteType);
+            currentParagraph.addText(new StyledText(InlineStyle.Normal, ''));
             paragraphs.push(currentParagraph);
         } else {
             currentParagraph = undefined; // end of block quote para
+        }
+    }
+
+    const processBlockQuoteContent = (line: string) => {
+        if (currentParagraph && currentParagraph.texts.length > 0) {
+            currentParagraph.texts[0].text += '\n' + line;
         }
     }
 
@@ -283,31 +290,41 @@ export function parseMarkdown(file: string, md: string): Paragraph[] {
     let currentParagraph: Paragraph | undefined = undefined;
     const lines = md.split('\n');
 
+    let inBlockQuote = false;
     for (const line of lines) {
-        switch (determineLineType(line)) {
-            case LineType.Empty:
-                processEmpty();
-                break;
-            case LineType.Normal:
-                processNormal(line);
-                break;
-            case LineType.Heading:
-                processHeading(line);
-                break;
-            case LineType.BulletItem:
-                processLineItem(line, ParagraphStyle.UnnumberedList);
-                break;
-            case LineType.NumberedListItem:
-                processLineItem(line, ParagraphStyle.NumberedList);
-                break;
-            case LineType.BlockQuote:
-                processBlockQuote(line);
-                break;
-            case LineType.HorizontalRule:
-                processHorizontalRule();
-                break;
-            default:
-                break;
+        if (inBlockQuote) {
+            if (determineLineType(line) === LineType.BlockQuote) {
+                inBlockQuote = false;
+            } else {
+                processBlockQuoteContent(line);
+            }
+        } else {
+            switch (determineLineType(line)) {
+                case LineType.Empty:
+                    processEmpty();
+                    break;
+                case LineType.Normal:
+                    processNormal(line);
+                    break;
+                case LineType.Heading:
+                    processHeading(line);
+                    break;
+                case LineType.BulletItem:
+                    processLineItem(line, ParagraphStyle.UnnumberedList);
+                    break;
+                case LineType.NumberedListItem:
+                    processLineItem(line, ParagraphStyle.NumberedList);
+                    break;
+                case LineType.BlockQuote:
+                    inBlockQuote = true;
+                    processBlockQuote(line);
+                    break;
+                case LineType.HorizontalRule:
+                    processHorizontalRule();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 

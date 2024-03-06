@@ -35,4 +35,11 @@ p {
   margin-bottom: 10px;
 }
 
+/* this is a pre-formatted block */
+.blog_para_9 {
+  white-space: pre;
+  font-family: 'Courier New', monospace;
+  font-size: 10pt;
+}
+
 </style>
