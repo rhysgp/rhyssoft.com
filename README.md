@@ -53,7 +53,7 @@ console.
 Then I initialised terraform and looked at the plan, to see what terraform
 was intending to do (in this case, create everything):
 ```bash
-cd terraform
+cd terraform_gcc
 terraform init
 terraform plan
 ```
