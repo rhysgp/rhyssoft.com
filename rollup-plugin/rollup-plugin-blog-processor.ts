@@ -37,17 +37,17 @@ export default function processBlogs(options = {}): Plugin {
         console.log(`\nblogsDir = ${blogsDir}`);
 
         const files = await readdir(blogsDir);
+        let blogJson = '';
         for (const file of files.sort()) {
           const fullPath = resolve(blogsDir, file)
           // read the contents of the file:
           console.log(fullPath);
           const md = await readFile(fullPath, 'utf-8');
           const paragraphs = parseMarkdown(id, md);
-          const blogJson = JSON.stringify(paragraphs);
-          content = content.replace(/\/\* add blogs here \*\//, blogJson + ',\n/* add blogs here */');
+          blogJson += JSON.stringify(paragraphs);
+          blogJson += ',';
         }
-
-        console.log(content);
+        content = content.replace(/\/\* add blogs here \*\//, blogJson);
 
         return {
           code: content,
