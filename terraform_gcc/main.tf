@@ -22,7 +22,7 @@ resource "google_storage_bucket" "rhyssoft_com" {
 
   website {
     main_page_suffix = "index.html"
-    not_found_page   = "404.html"
+    not_found_page   = "index.html"
   }
 }
 
