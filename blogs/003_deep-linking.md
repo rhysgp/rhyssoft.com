@@ -16,7 +16,7 @@ different resource from the server, in fact no such resource is fetched. Instead
 the web application handles the 'link' itself by displaying a different component, 
 with the context of the first blog (which is some JavaScript state). 
 
-There is no simple fix this when using Google buckets to serve the files. The
+There is no simple fix for this when using Google buckets to serve the files. The
 workaround is to define the `not_found_page` to be the same as the  
 `main_page_suffix` in terraform:
 
