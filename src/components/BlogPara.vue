@@ -15,6 +15,7 @@ const props = defineProps<{
     </template>
     <template v-else v-for="t in para.texts">
       <a v-if="t.style === 4" :href="t.href">{{t.text}}</a>
+      <code v-else-if="t.style === 5">{{t.text}}</code>
       <span v-else :class="'blog_span_' + t.style">{{t.text}}</span>
     </template>
   </p>
