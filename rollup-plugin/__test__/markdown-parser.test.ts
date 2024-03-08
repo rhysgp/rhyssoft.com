@@ -192,4 +192,16 @@ describe('parsing markdown', () => {
         const paragraphs = parseMarkdown('', 'Here\n```\nis my block\n```\nthat\'s cool.');
         expect(paragraphs.length).toBe(3);
     })
+
+    it('should parse single tick code', () => {
+        const paragraphs = parseMarkdown('', 'This is `code`, baby!');
+        expect(paragraphs.length).toBe(1);
+        expect(paragraphs[0].texts.length).toBe(3);
+        expect(paragraphs[0].texts[0].text).toBe('This is ');
+        expect(paragraphs[0].texts[0].style).toBe(InlineStyle.Normal);
+        expect(paragraphs[0].texts[1].text).toBe('code');
+        expect(paragraphs[0].texts[1].style).toBe(InlineStyle.Code);
+        expect(paragraphs[0].texts[2].text).toBe(', baby!');
+        expect(paragraphs[0].texts[2].style).toBe(InlineStyle.Normal);
+    });
 });

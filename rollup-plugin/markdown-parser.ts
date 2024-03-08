@@ -28,7 +28,8 @@ export enum InlineStyle {
     ListItem,
     Italic,
     Bold,
-    Link
+    Link,
+    Code
 }
 
 class StyledText {
@@ -257,6 +258,7 @@ export function parseMarkdown(file: string, md: string): Paragraph[] {
         const urlPattern = /\[([^\]]+)]\(([^)]+)\)/g; // IntelliJ is wrong about the need to escape the ]
         const italicPattern = /(^|\s|\()_(.*?)_(\s|,|.|;|:|$|\))/g;
         const boldPattern = /(^|\s|\()\*\*(.*?)\*\*(\s|,|.|;|:|$|\))/g;
+        const codePattern = /`([^`]+)`/g;
 
         const parseBoldOrItalic = (st: StyledText, re: RegExp, style: InlineStyle): StyledText[] => {
             const ss: StyledText[] = [];
@@ -303,10 +305,33 @@ export function parseMarkdown(file: string, md: string): Paragraph[] {
 
             return ss;
         }
+        const parseCode = (st: StyledText): StyledText[] => {
+            const ss: StyledText[] = [];
+            const matches = st.text.matchAll(codePattern);
+
+            let endLastMatchIndex = 0;
+
+            for (const match of matches) {
+                const text = match[1];
+                if (match.index && match.index > endLastMatchIndex) {
+                    ss.push(new StyledText(st.style, st.text.substring(endLastMatchIndex, match.index)));
+                }
+                ss.push(new StyledText(InlineStyle.Code, text));
+                endLastMatchIndex = (match.index ?? 0) + match[0].length;
+            }
+
+            if (endLastMatchIndex < st.text.length) {
+                ss.push(new StyledText(st.style, st.text.substring(endLastMatchIndex)));
+            }
+
+            return ss;
+        }
 
         return parseBoldOrItalic(st, italicPattern, InlineStyle.Italic)
             .flatMap((st) => parseBoldOrItalic(st, boldPattern, InlineStyle.Bold))
+            .flatMap((st) => parseCode(st))
             .flatMap((st) => parseUrl(st));
+
     }
 
     const parseInlineStylesForParagraph = (paragraph: Paragraph) => {
