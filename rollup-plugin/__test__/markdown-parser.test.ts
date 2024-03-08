@@ -13,7 +13,7 @@ import blockQuoteMd from './block-quote.md?raw'
 import firstBlogPost from '../../blogs/001_intro.md?raw'
 import secondBlogPost from '../../blogs/002_rollup-plugin.md?raw'
 
-import {parseMarkdown, ParagraphStyle, InlineStyle} from "../markdown-parser";
+import {parseMarkdown, ParagraphStyle, InlineStyle, Link} from "../markdown-parser";
 
 describe('parsing markdown', () => {
     it('should process a normal paragraph correctly', () => {
@@ -108,9 +108,8 @@ describe('parsing markdown', () => {
     it('should process block quote correctly', () => {
         const paragraphs = parseMarkdown('', blockQuoteMd);
         expect(paragraphs.length).toBe(1);
-        expect(paragraphs[0].texts.length).toBe(2);
-        expect(paragraphs[0].texts[0].text).toBe('rm -f -r *');
-        expect(paragraphs[0].texts[1].text).toBe('ls -l');
+        expect(paragraphs[0].texts.length).toBe(1);
+        expect(paragraphs[0].texts[0].text).toBe('\nrm -f -r *\nls -l');
     });
 
     it('should process italics correctly', () => {
@@ -133,6 +132,50 @@ describe('parsing markdown', () => {
         expect(paragraphs[0].texts[1].style).toBe(InlineStyle.Bold);
         expect(paragraphs[0].texts[2].text).toBe(' dragons');
         expect(paragraphs[0].texts[2].style).toBe(InlineStyle.Normal);
+    });
+
+    it('should process bold correctly when there are two in the text', () => {
+        const paragraphs = parseMarkdown('', 'Here there **are** dragons that **aren\'t dangerous**!');
+        expect(paragraphs[0].texts.length).toBe(5);
+        expect(paragraphs[0].texts[0].text).toBe('Here there ');
+        expect(paragraphs[0].texts[0].style).toBe(InlineStyle.Normal);
+        expect(paragraphs[0].texts[1].text).toBe('are');
+        expect(paragraphs[0].texts[1].style).toBe(InlineStyle.Bold);
+        expect(paragraphs[0].texts[2].text).toBe(' dragons that ');
+        expect(paragraphs[0].texts[2].style).toBe(InlineStyle.Normal);
+        expect(paragraphs[0].texts[3].text).toBe('aren\'t dangerous');
+        expect(paragraphs[0].texts[3].style).toBe(InlineStyle.Bold);
+        expect(paragraphs[0].texts[4].text).toBe('!');
+        expect(paragraphs[0].texts[4].style).toBe(InlineStyle.Normal);
+    });
+
+    it('should process URL links', () => {
+        const paragraphs = parseMarkdown('', 'Please click [here](https://www.example.com/here) for details');
+        expect(paragraphs[0].texts.length).toBe(3);
+        expect(paragraphs[0].texts[0].text).toBe('Please click ');
+        expect(paragraphs[0].texts[0].style).toBe(InlineStyle.Normal);
+        expect(paragraphs[0].texts[1].text).toBe('here');
+        expect((paragraphs[0].texts[1] as Link).href).toBe('https://www.example.com/here');
+        expect(paragraphs[0].texts[1].style).toBe(InlineStyle.Link);
+        expect(paragraphs[0].texts[2].text).toBe(' for details');
+        expect(paragraphs[0].texts[2].style).toBe(InlineStyle.Normal);
+    });
+
+    it('should process URL links when there are two', () => {
+        const paragraphs = parseMarkdown('', '[Vite](https://vitejs.dev/) is a tool for frontend development, \n' +
+            'which I use for developing VueJS apps. Under the bonnet, vite uses \n' +
+            '[Rollup](https://rollupjs.org/), a module bundler.');
+        expect(paragraphs[0].texts.length).toBe(4);
+        expect(paragraphs[0].texts[0].text).toBe('Vite');
+        expect((paragraphs[0].texts[0] as Link).href).toBe('https://vitejs.dev/');
+        expect(paragraphs[0].texts[0].style).toBe(InlineStyle.Link);
+        expect(paragraphs[0].texts[1].text).toBe(' is a tool for frontend development, which I use for developing VueJS apps. Under the bonnet, vite uses ');
+        expect(paragraphs[0].texts[1].style).toBe(InlineStyle.Normal);
+        expect(paragraphs[0].texts[2].text).toBe('Rollup');
+        expect((paragraphs[0].texts[2] as Link).href).toBe('https://rollupjs.org/');
+        expect(paragraphs[0].texts[2].style).toBe(InlineStyle.Link);
+        expect(paragraphs[0].texts[3].text).toBe(', a module bundler.');
+        expect(paragraphs[0].texts[3].style).toBe(InlineStyle.Normal);
     });
 
     it('should parse the first blog post', () => {

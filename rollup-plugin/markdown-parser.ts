@@ -28,6 +28,7 @@ export enum InlineStyle {
     ListItem,
     Italic,
     Bold,
+    Link
 }
 
 class StyledText {
@@ -40,6 +41,14 @@ class StyledText {
 
     addText(s: string): void {
         this.text += s;
+    }
+}
+
+export class Link extends StyledText {
+    href: string;
+    constructor(text: string, href: string) {
+        super(InlineStyle.Link, text);
+        this.href = href;
     }
 }
 
@@ -60,10 +69,6 @@ class Paragraph {
 }
 
 export function parseMarkdown(file: string, md: string): Paragraph[] {
-    console.log("--------------------------------------------");
-    console.log(file);
-    console.log(md);
-    console.log("--------------------------------------------");
 
     /*
      * BulletItem,
@@ -246,10 +251,11 @@ export function parseMarkdown(file: string, md: string): Paragraph[] {
      * than the italics; and vice versa; and then splitting
      */
     const parseInlineStyles = (st: StyledText): StyledText[] => {
-        const italicPattern = /(^|\s\()_(.*?)_(\s|,|.|;|:|$|\))/g;
-        const boldPattern = /(^|\s\()\*\*(.*?)\*\*(\s|,|.|;|:|$|\))/g;
+        const urlPattern = /\[([^\]]+)]\(([^)]+)\)/g; // IntelliJ is wrong about the need to escape the ]
+        const italicPattern = /(^|\s|\()_(.*?)_(\s|,|.|;|:|$|\))/g;
+        const boldPattern = /(^|\s|\()\*\*(.*?)\*\*(\s|,|.|;|:|$|\))/g;
 
-        const parse = (st: StyledText, re: RegExp, style: InlineStyle): StyledText[] => {
+        const parseBoldOrItalic = (st: StyledText, re: RegExp, style: InlineStyle): StyledText[] => {
             const ss: StyledText[] = [];
             const matches = st.text.matchAll(re);
             let endLastMatchIndex = 0;
@@ -258,8 +264,8 @@ export function parseMarkdown(file: string, md: string): Paragraph[] {
                 const preSpace = match[1];
                 const italicText = match[2];
                 const postSpace = match[3];
-                if (ss.length === 0 && match.index && match.index > endLastMatchIndex) {
-                    ss.push(new StyledText(st.style, st.text.substring(0, match.index) + preSpace));
+                if (match.index && match.index > endLastMatchIndex) {
+                    ss.push(new StyledText(st.style, st.text.substring(endLastMatchIndex, match.index) + preSpace));
                 }
                 ss.push(new StyledText(style, italicText));
                 ss.push(new StyledText(st.style, postSpace));
@@ -272,9 +278,32 @@ export function parseMarkdown(file: string, md: string): Paragraph[] {
 
             return ss.length > 0 ? mergeConsecutiveStyles(ss) : [ st ];
         }
+        const parseUrl = (st: StyledText): StyledText[] => {
+            const ss: StyledText[] = [];
+            const matches = st.text.matchAll(urlPattern);
 
-        const texts = parse(st, italicPattern, InlineStyle.Italic);
-        return texts.flatMap((st) => parse(st, boldPattern, InlineStyle.Bold));
+            let endLastMatchIndex = 0;
+
+            for (const match of matches) {
+                const text = match[1];
+                const href = match[2];
+                if (match.index && match.index > endLastMatchIndex) {
+                    ss.push(new StyledText(st.style, st.text.substring(endLastMatchIndex, match.index)));
+                }
+                ss.push(new Link(text, href));
+                endLastMatchIndex = (match.index ?? 0) + match[0].length;
+            }
+
+            if (endLastMatchIndex < st.text.length) {
+                ss.push(new StyledText(st.style, st.text.substring(endLastMatchIndex)));
+            }
+
+            return ss;
+        }
+
+        return parseBoldOrItalic(st, italicPattern, InlineStyle.Italic)
+            .flatMap((st) => parseBoldOrItalic(st, boldPattern, InlineStyle.Bold))
+            .flatMap((st) => parseUrl(st));
     }
 
     const parseInlineStylesForParagraph = (paragraph: Paragraph) => {
