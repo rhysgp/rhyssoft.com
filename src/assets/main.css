@@ -11,3 +11,6 @@
 
 .blog a { color: var(--color-link) }
 .blog a:hover { text-decoration: underline }
+
+.blog_span_2 { font-style: italic; }
+.blog_span_2 { font-weight: bold; }
