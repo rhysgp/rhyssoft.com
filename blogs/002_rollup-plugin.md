@@ -109,13 +109,15 @@ export default function processBlogs(options = {}): Plugin {
             if (id.endsWith('/src/blogs.ts')) {
                 const blogsDir = path.resolve(id, '../../blogs/')
                 const files = await readdir(blogsDir);
+                let blogJson = '';
                 for (const file of files.sort()) {
                     const fullPath = resolve(blogsDir, file)
                     const md = await readFile(fullPath, 'utf-8');
                     const paragraphs = parseMarkdown(id, md);
-                    const blogJson = JSON.stringify(paragraphs);
-                    content = content.replace(/\/\* add blogs here \*\//, blogJson + ',\n/* add blogs here */');
+                    blogJson += JSON.stringify(paragraphs);
+                    blogJson += ',';
                 }
+                content = content.replace(/\/\* add blogs here \*\//, blogJson);
                 return {
                     code: content,
                     map: { mappings: '' }
