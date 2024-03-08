@@ -246,8 +246,8 @@ export function parseMarkdown(file: string, md: string): Paragraph[] {
      * than the italics; and vice versa; and then splitting
      */
     const parseInlineStyles = (st: StyledText): StyledText[] => {
-        const italicPattern = /(^|\s)_(.*?)_(\s|,|.|;|:|$)/g;
-        const boldPattern = /(^|\s)\*\*(.*?)\*\*(\s|,|.|;|:|$)/g;
+        const italicPattern = /(^|\s\()_(.*?)_(\s|,|.|;|:|$|\))/g;
+        const boldPattern = /(^|\s\()\*\*(.*?)\*\*(\s|,|.|;|:|$|\))/g;
 
         const parse = (st: StyledText, re: RegExp, style: InlineStyle): StyledText[] => {
             const ss: StyledText[] = [];
