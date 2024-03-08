@@ -203,7 +203,10 @@ export function parseMarkdown(file: string, md: string): Paragraph[] {
 
     const processBlockQuoteContent = (line: string) => {
         if (currentParagraph && currentParagraph.texts.length > 0) {
-            currentParagraph.texts[0].text += '\n' + line;
+            if (currentParagraph.texts[0].text.length > 0) {
+                currentParagraph.texts[0].text += '\n';
+            }
+            currentParagraph.texts[0].text += line;
         }
     }
 
@@ -324,6 +327,7 @@ export function parseMarkdown(file: string, md: string): Paragraph[] {
         if (inBlockQuote) {
             if (determineLineType(line) === LineType.BlockQuote) {
                 inBlockQuote = false;
+                currentParagraph = undefined;
             } else {
                 processBlockQuoteContent(line);
             }

@@ -179,12 +179,17 @@ describe('parsing markdown', () => {
     });
 
     it('should parse the first blog post', () => {
-        const paragraphs = parseMarkdown('', firstBlogPost)
+        const paragraphs = parseMarkdown('', firstBlogPost);
         console.log(paragraphs);
     });
 
     it('should parse the second blog post', () => {
-        const paragraphs = parseMarkdown('', secondBlogPost)
+        const paragraphs = parseMarkdown('', secondBlogPost);
         console.log(paragraphs);
     });
+
+    it('should parse small block quote properly', () => {
+        const paragraphs = parseMarkdown('', 'Here\n```\nis my block\n```\nthat\'s cool.');
+        expect(paragraphs.length).toBe(3);
+    })
 });
