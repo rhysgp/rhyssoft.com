@@ -2,6 +2,7 @@
 export interface BlogSpan {
     style: any;
     text: string;
+    href?: string;
 }
 
 export interface BlogParagraph {
