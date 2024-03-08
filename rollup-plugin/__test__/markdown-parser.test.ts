@@ -109,7 +109,7 @@ describe('parsing markdown', () => {
         const paragraphs = parseMarkdown('', blockQuoteMd);
         expect(paragraphs.length).toBe(1);
         expect(paragraphs[0].texts.length).toBe(1);
-        expect(paragraphs[0].texts[0].text).toBe('\nrm -f -r *\nls -l');
+        expect(paragraphs[0].texts[0].text).toBe('rm -f -r *\nls -l');
     });
 
     it('should process italics correctly', () => {
