@@ -7,7 +7,8 @@ export interface BlogSpan {
 
 export interface BlogParagraph {
     style: any;
-    texts: BlogSpan[]
+    texts: BlogSpan[];
+    type?: string;
 }
 
 export function blogs(): BlogParagraph[][] {

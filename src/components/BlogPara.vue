@@ -9,7 +9,8 @@ const props = defineProps<{
 
 </script>
 <template>
-  <p :class="'blog_para_' + para.style">
+  <pre v-if="para.style === 9"><code :class="'language-' + para.type">{{para.texts[0].text}}</code></pre>
+  <p v-else :class="'blog_para_' + para.style">
     <template v-if="publishedDate">
       <div class="w-full text-right text-gray-500 font-cutive-mono">{{formatDate(para.texts[0].text)}}</div>
     </template>
@@ -35,13 +36,6 @@ p {
 }
 .blog_para_1 + hr {
   margin-bottom: 10px;
-}
-
-/* this is a pre-formatted block */
-.blog_para_9 {
-  white-space: pre;
-  font-family: 'Courier New', monospace;
-  font-size: 10pt;
 }
 
 </style>
