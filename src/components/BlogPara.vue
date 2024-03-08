@@ -14,7 +14,8 @@ const props = defineProps<{
       <div class="w-full text-right text-gray-500 font-cutive-mono">{{formatDate(para.texts[0].text)}}</div>
     </template>
     <template v-else v-for="t in para.texts">
-      <span :class="'blog_span_' + t.style">{{t.text}}</span>
+      <a v-if="t.style === 4" :href="t.href">{{t.text}}</a>
+      <span v-else :class="'blog_span_' + t.style">{{t.text}}</span>
     </template>
   </p>
   <hr v-if="para.style === 1">
