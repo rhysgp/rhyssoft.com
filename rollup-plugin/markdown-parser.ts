@@ -335,6 +335,7 @@ export function parseMarkdown(file: string, md: string): Paragraph[] {
     }
 
     const parseInlineStylesForParagraph = (paragraph: Paragraph) => {
+        if (paragraph.style === ParagraphStyle.BlockQuote) return;
         const newStyledTexts: StyledText[] = [];
         for (const st of paragraph.texts) {
             const ss = parseInlineStyles(st);
