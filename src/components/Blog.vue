@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
+import {onMounted} from "vue";
+import {useRoute} from 'vue-router'
 import {type BlogParagraph, blogs} from '@/blogs'
 import BlogPara from "@/components/BlogPara.vue";
 import Content from "@/components/Content.vue";
@@ -12,6 +13,11 @@ const props = defineProps<{
 const route = useRoute()
 
 const blog: BlogParagraph[] = blogs()[Number(route.params.id)]
+
+onMounted(() => {
+  // @ts-ignore
+  window.Prism.highlightAll();
+});
 
 </script>
 
