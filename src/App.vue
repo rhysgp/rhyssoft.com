@@ -26,7 +26,7 @@ import NavLink from './components/NavLink.vue'
 
     <!-- Footer -->
     <footer class="flex items-center min-h-16 p-4 bg-[#030303] text-[#fbfaf4]">
-      <span class="inline-block">Copyright &copy; 2023 Rhys Parsons. All rights reserved.</span>
+      <span class="inline-block">Copyright &copy; 2023, 2024 Rhys Parsons. All rights reserved.</span>
     </footer>
 
   </div>
