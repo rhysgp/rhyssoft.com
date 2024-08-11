@@ -35,8 +35,9 @@
   --color-border-hover: var(--vt-c-divider-light-1);
 
   --color-heading: var(--vt-c-text-light-1);
-  --color-text: var(--vt-c-text-light-1);
-  --color-link: var(--vt-c-text-light-2);
+  --color-text: var(--vt-c-text-light-2);
+  --color-link: var(--vt-c-text-light-1);
+  --color-text-highlight: var(--vt-c-text-light-1);
 
   --section-gap: 160px;
 }
@@ -53,6 +54,7 @@
     --color-heading: var(--vt-c-text-dark-1);
     --color-text: var(--vt-c-text-dark-2);
     --color-link: var(--vt-c-text-dark-1);
+    --color-text-highlight: var(--vt-c-text-dark-1);
   }
 }
 

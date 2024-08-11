@@ -33,9 +33,12 @@ p {
 .blog_para_1 {
   font-weight: bold;
   font-size: 18pt;
+  color: var(--color-text-highlight);
 }
 .blog_para_1 + hr {
   margin-bottom: 10px;
 }
-
+.blog_para_2 {
+  color: var(--color-text-highlight);
+}
 </style>
