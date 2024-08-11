@@ -1,9 +1,15 @@
-# Authenticating with Mastodon
+# Authenticating with Mastodon and oauth
 2024-08-09
 
-I've started working on a new home project relating to Mastodon. I had a look
-at the documentation for authenticating and authorizing, but it took some
-trial and error to get something working.
+The Mastodon documentation for authentication and authorization was confusing,
+so here is how I got it to work.
+
+I've started working on a new home project relating to Mastodon. The very first
+thing (unsurprisingly!) that I needed to work out was, how do I authorize
+my app against Mastodon. Specifically, I will want a Mastodon user to be able to 
+use their account with my app, so that the app can read messages in their 
+stream and write messages to it too. But initially, I just want to get the flow 
+to work.
 
 This is a VueJS project. It will be an unusual Mastodon client (I'll blog
 about that later); but, for now, here's how I got the auth stuff working.
@@ -53,10 +59,10 @@ I'm using the `mastodonapp.uk` instance, because that's where I have my
 mastodon account. In the real world, the user will need to be able to
 specify their server.
 
-You can see that I added the `error` flag to the result returned by Mastodon.
-This just makes it easy to check whether there was an error or not.
+I added the `error` flag to the result returned by Mastodon. This just makes it 
+easy to check whether there was an error or not from the calling code.
 
-The `client_id` and `client_secret` are what we need for future calls.
+The `client_id` and `client_secret` properties are what we need for future calls.
 
 
 ## Authorizing the user
@@ -106,8 +112,8 @@ mapped to the redirect URI in the router:
 </style>
 ```
 
-You can see that I'm setting the authorization code on an auth store (which
-is a Pinia store).
+This sets the authorization code, received from Mastodon via the redirect URI, 
+on an auth store, which is a [Pinia store](https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://pinia.vuejs.org/&ved=2ahUKEwiwx6HE2eyHAxX8YEEAHbEcD3IQFnoECBkQAQ&usg=AOvVaw1_N-_OqYaVXtPOkjAJI049).
 
 
 ## Fetching a token
@@ -140,10 +146,9 @@ export const fetchToken = async (clientId: string, clientSecret: string, authCod
 }
 ```
 
-As you can see, the request pulls in several pieces of information we've gathered
-along the way:
- - `client_id` and `client_secret` from registering the app; and
- - `code` from authorizing the user.
+The request pulls in several pieces of information we've gathered along the way:
+`client_id` and `client_secret` from registering the app; and `code` from 
+authorizing the user.
 
 The result of the token fetch looks like this:
 ```ts
@@ -191,3 +196,6 @@ export const listConversations = async () => {
 ```
 This results in a listing of the last 40 conversations in the user's Mastodon
 account.
+
+You can see progress of this project on github - 
+[ActivityGo](https://github.com/rhysgp/ActivityGO)
